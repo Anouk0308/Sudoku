@@ -112,7 +112,7 @@ public class GUI {
             if (GUI.class.getField(textFieldName) != null) {
                  java.lang.reflect.Field f = GUI.class.getField(textFieldName);
                  if(f.getType().isAssignableFrom(JTextField.class));{
-                     t = (JTextField) f;
+                     t = (JTextField) f;//hier gaat het dus fout
                  }
             } else {
                 t = null;
