@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 public class Main {
     public BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
     public Board board;
-    public boolean fullBoard = false;
 
     public Main(){
         board = new Board();
@@ -13,20 +12,11 @@ public class Main {
 
     public static void main(String[] args) {
         Main m = new Main();
-        m.loop();
-        //m.userRead();
+        m.userRead();
     }
 
-    public void loop(){
-        while(fullBoard == false) {
-            userRead();
-        }
-    }
     public void userRead(){
-        if(board.full()){
-            System.out.println("Yeey, you are done");
-            fullBoard = true;
-        } else{
+        while(board.full()==false) {
             EnumSquares es =  EnumSquares.EMPTY;
             int position;
             TUI tui = new TUI(board);
@@ -87,6 +77,8 @@ public class Main {
                 System.out.println("error:"+e.getMessage());
             }
         }
+        TUI tui = new TUI(board);
+        System.out.println("Yeey, you are done");
     }
 
     public void GUI(Board b){

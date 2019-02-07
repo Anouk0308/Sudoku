@@ -266,11 +266,19 @@ public class Board {
         checkSquares();
     }
 
+
+
+    public void checkSquares(){
+        checkOnePossibityInSquare();
+        checkOneSquarepossible();
+    }
+
+
     public boolean onePossibility(int i) {
         return(squares[i].possibleNumbers.size() == 1);
     }
 
-    public void checkSquares(){
+    public void checkOnePossibityInSquare(){//kijkt of een vierkantje nog maar 1 mogelijkheid heeft
         for(int i = 0; i < squares.length; i++){
             Square s = squares[i];
             if(s.stateSquare == EnumSquares.EMPTY) {
@@ -283,8 +291,100 @@ public class Board {
                 continue;
             }
         }
-
     }
+
+    public void checkOneSquarepossible(){//kijkt per rij, kollom en groep of er maar 1 vierkantje is waar bv de 5 in kan
+        SquareBoardCombi[][] sbcArrayArray = getAllSBC(); //krijg alle rijen, alle kollomen en alle groepen
+        for(int a = 0; a < sbcArrayArray.length; a++){
+            SquareBoardCombi[] sbca = sbcArrayArray[a]; //krijg een rij, kollom of groep
+
+            for(int b = 1; b < 10; b++){ //doe dit per getal 1....9
+                int counter = 0;
+                EnumSquares es = getEnumFromInt(b);
+                int index = -1;
+
+                for(int c = 0; c<9; c++){ // kijk voor elke SquareBoardCombi in de rij(of kolom/groep)
+                    SquareBoardCombi sbc = sbca[c];
+                        Square s = sbc.s;
+                        int i = sbc.i;
+
+                    if(s.possibleNumbers.contains(es)){
+                        counter = counter + 1;
+                        index = i;
+                    }
+                    else{
+                        continue;
+                    }
+                }
+
+                if(counter == 1){
+                    set(index,es);
+                } else{
+                    continue;
+                }
+            }
+
+        }
+    }
+
+    public SquareBoardCombi[][] getAllSBC(){//kijkt per rij, kollom en groep of er maar 1 vierkantje is waar bv de 5 in kan
+        SquareBoardCombi[][] sbcArrayArray = new SquareBoardCombi[27][9]; //krijg alle rijen, alle kollomen en alle groepen
+        for (int i = 0; i < 9; i++){//alle rijen
+            sbcArrayArray[i]= getRow(i);
+        }
+        for (int i = 0; i < 9; i++){//alle kollomen
+            int arrayIndex = i+9;
+            int columnGetter = i*9;
+            sbcArrayArray[arrayIndex] = getColumn(columnGetter);
+        }
+        for (int i = 0; i < 9; i++){//alle groepen
+            int arrayIndex = i+18;
+            int groupGetter = 0;
+            if(i <= 4) {
+                groupGetter = i * 12;//fout//
+            } else if (i == 5){
+                groupGetter = i * 10+1;
+            } else if(i == 6){
+                groupGetter = i * 9;
+            } else if(i == 7){
+                groupGetter = i*11;
+            } else {
+                groupGetter = i*10;
+            }
+            sbcArrayArray[arrayIndex] = getGroup(groupGetter);
+        }
+        return sbcArrayArray;
+    }
+
+    public EnumSquares getEnumFromInt(int i){
+        EnumSquares es;
+        switch(i){
+            case 0:         es = EnumSquares.EMPTY; break;
+            case 1:         es = EnumSquares.ONE; break;
+            case 2:         es = EnumSquares.TWO; break;
+            case 3:         es = EnumSquares.THREE; break;
+            case 4:         es = EnumSquares.FOUR; break;
+            case 5:         es = EnumSquares.FIVE; break;
+            case 6:         es = EnumSquares.SIX; break;
+            case 7:         es = EnumSquares.SEVEN; break;
+            case 8:         es = EnumSquares.EIGHT; break;
+            case 9:         es = EnumSquares.NINE; break;
+            default:        es = EnumSquares.EMPTY; break;
+
+        }
+        return es;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public boolean full(){
         int teller = 0;

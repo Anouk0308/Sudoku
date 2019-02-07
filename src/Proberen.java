@@ -19,7 +19,8 @@ public class Proberen {
       //  System.out.println("that was group of 80");
        // p.testSet(40, EnumSquares.FIVE);//werkt
         //p.testFullBoolean();
-        p.testGUI();
+       // p.testGUI();
+
 
     }
 
@@ -107,6 +108,7 @@ public class Proberen {
         String[] args = new String[0];
         gui.main(args);
     }
+
 
 
 }

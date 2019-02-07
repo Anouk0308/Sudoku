@@ -1,7 +1,9 @@
 import javax.swing.*;
+import java.lang.reflect.Field;
 
 public class GUI {
     public JPanel panel1;
+    private JTextField[] textfields = new JTextField[81];
     public JTextField t0;
     public JTextField t9;
     public JTextField t18;
@@ -84,6 +86,7 @@ public class GUI {
     public JTextField t64;
     public JTextField t65;
 
+
     public GUI(){
 
     }
@@ -91,25 +94,42 @@ public class GUI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("SudokuGUI");
         GUI gui = new GUI();
-        for(int i = 0; i<81; i++){
-            String numberString = args[i];
-            String textFieldName = "t"+i;
-            JTextField t = gui.getTextField(textFieldName);
-            if(!numberString.equals("0")){
-                t.setText(numberString);
-            }
-        }
-
+        gui.setTextFields(args);
         frame.setContentPane(gui.panel1);
         frame.setDefaultCloseOperation(JInternalFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
-    public JTextField getTextField(String textFieldName){
-        JTextField t = null;
+    public void setTextFields(String[] args){
+
+
+    /*
+        for(int i = 0; i<81; i++){
+            var textFieldName = "t"+i;
+            JTextField t = (JTextField) textFieldName;
+            textfields[i] = t;
+        }*/
+
+        for(int i = 0; i<81; i++){
+            String numberString = args[i];
+            JTextField t = textfields[i];
+            if(!numberString.equals("0")){
+                t.setText(numberString);
+            }
+        }
+
+
+
+
+
+
+
+
+
+        /**
         try {
-            if (GUI.class.getField(textFieldName) != null) {
+            if (GUI.class.getDeclaredField(textFieldName) != null) {
                  java.lang.reflect.Field f = GUI.class.getField(textFieldName);
                  if(f.getType().isAssignableFrom(JTextField.class));{
                      t = (JTextField) f;//hier gaat het dus fout
@@ -119,9 +139,8 @@ public class GUI {
             }
         } catch(NoSuchFieldException e){
             System.out.println(e.getMessage());
-        }
+        }*/
 
-        return t;
     }
 
 
